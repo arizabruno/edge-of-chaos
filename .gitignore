@@ -42,3 +42,9 @@ htmlcov/
 *.blg
 *.run.xml
 *.synctex.gz
+
+# --- Data ---
+*.tsv
+
+# --- Miscellaneous ---
+mock_demo.py
