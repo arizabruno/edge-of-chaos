@@ -2,10 +2,46 @@
 
 Build a stability matrix from a gene regulatory network (real or randomly generated) and check whether it sits at the edge of chaos, based on the May-Wigner random matrix model.
 
-## Install
+## Overview
 
-```
-pip install edge-of-chaos
+```mermaid
+flowchart TD
+    A["GRN TSV"] --> B[["parse()"]]
+    B --> C["Edge list"]
+    C --> D[["build_gene_index()"]]
+    D --> E["Gene index"]
+
+    C --> F[["weighted_matrix()"]]
+    E --> F
+    F --> G["matrix, random self-loop"]
+
+    C --> H[["self_loop_nudged_matrix()"]]
+    E --> H
+    H --> I["matrix, fixed self-loop"]
+
+    G --> J[["empirical_critical_sigma()"]]
+    I --> J
+    J --> K["empirical critical σ"]
+
+    C --> M[["critical_sigma()"]]
+    E --> M
+    M --> N["theoretical critical σ"]
+
+    K --> O[["compare()"]]
+    N --> O
+    O --> P["theory vs. empirical gap"]
+
+    classDef data fill:#FFFFFF,stroke:#00407A,stroke-width:2.5px,color:#1F2A2E,font-weight:600
+    classDef func fill:#52BDEC,stroke:#1F2A2E,stroke-width:1.5px,color:#FBFBF8,font-weight:600
+    classDef util fill:#D9D9D9,stroke:#1F2A2E,stroke-width:1.5px,color:#1F2A2E,font-weight:600
+    classDef result fill:#C0392B,stroke:#1F2A2E,stroke-width:2.5px,color:#FBFBF8,font-weight:700
+
+    class A,C,E,G,I,K,N data
+    class D,F,H,J,M func
+    class B,O util
+    class P result
+
+    linkStyle default stroke:#00407A,stroke-width:1.5px
 ```
 
 ## Quick usage (E. coli / RegulonDB)
@@ -64,6 +100,18 @@ from edge_of_chaos import signed_matrix, weighted_matrix
 S = signed_matrix(edges, index)                          # entries are -1, 0, or 1
 A = weighted_matrix(edges, index, sigma=0.3, rng=rng)     # entries are signed random magnitudes
 ```
+
+## Self-loop nudge
+
+`self_loop_nudged_matrix` builds the same matrix as `weighted_matrix`, except self-loop edges (`regulator == target`) get a fixed magnitude, `sigma * nudge_scale`, instead of a fresh random draw each time.
+
+```python
+from edge_of_chaos import self_loop_nudged_matrix
+
+A = self_loop_nudged_matrix(edges, index, sigma=0.3, rng=rng, nudge_scale=0.5)
+```
+
+`nudge_scale` (default `0.5`) sets that fixed strength relative to `sigma`.
 
 ## Checking stability
 
