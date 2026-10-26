@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "edge-of-chaos"
 dynamic = ["version"]
-description = "..."
+description = "Stability analysis of gene regulatory networks under the May-Wigner random matrix model."
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [
