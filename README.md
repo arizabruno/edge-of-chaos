@@ -42,6 +42,7 @@ is_stable(A)
 `parse_regulondb_lines` only understands RegulonDB's TSV format. For any other organism or dataset, write your own parser that produces a list of `Edge` objects. Everything after that point (`build_gene_index`, `weighted_matrix`, etc.) works the same regardless of where the edges came from.
 
 ```python
+import numpy as np
 from edge_of_chaos import Edge, build_gene_index, weighted_matrix
 
 edges = [
