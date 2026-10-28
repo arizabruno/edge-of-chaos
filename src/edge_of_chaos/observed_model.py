@@ -44,12 +44,12 @@ def self_loop_nudged_matrix(
     self_regulation: float = -1.0,
 ) -> np.ndarray:
     n = len(index)
-    is_self_loop_neg = np.array([edge.regulator == edge.target and edge.sign < 0 for edge in edges])
+    is_self_loop = np.array([edge.regulator == edge.target for edge in edges])
     magnitudes = np.abs(draw_interaction_strengths(rng, (len(edges),), sigma, dist))
-    magnitudes = np.where(is_self_loop_neg, sigma * nudge_scale, magnitudes)
+    magnitudes = np.where(is_self_loop, sigma * nudge_scale, magnitudes)
 
     A = np.zeros((n, n))
     for edge, magnitude in zip(edges, magnitudes):
-            A[index[edge.target], index[edge.regulator]] = edge.sign * magnitude
+        A[index[edge.target], index[edge.regulator]] = edge.sign * magnitude
 
     return A + self_regulation * np.eye(n)
