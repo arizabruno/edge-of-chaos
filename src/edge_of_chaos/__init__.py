@@ -19,17 +19,9 @@ from .regulondb import (
     parse_regulondb_lines,
     resolve_sign,
 )
+from .observed_model import signed_matrix, weighted_matrix, self_loop_nudged_matrix
 
-from .regulondb import (
-    Edge,
-    RawEdge,
-    build_gene_index,
-    deduplicate_edges,
-    filter_edges,
-    parse_regulondb_lines,
-    resolve_sign,
-)
-from .observed_model import signed_matrix, weighted_matrix
+from ._version import __version__
 
 __all__ = [
     "Params",
@@ -66,7 +58,6 @@ __all__ = [
     "build_gene_index",
     "signed_matrix",
     "weighted_matrix",
+    "self_loop_nudged_matrix",
     "empirical_critical_sigma",
 ]
-
-__version__ = "0.1.0"
